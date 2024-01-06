@@ -25,7 +25,7 @@ VM = $(MINI_OT) $(SHAREDLIB)
 COMMON = $(SHAREDLIB)
 TINIER =  Machines/Tinier.o $(OT)
 SPDZ = Machines/SPDZ.o $(TINIER)
-
+COMMON_ZH = $(MATH) $(TOOLS) $(NETWORK)
 
 LIB = libSPDZ.a
 SHAREDLIB = libSPDZ.so 
@@ -138,6 +138,11 @@ LDLIBS += -Wl,-rpath -Wl,$(CURDIR)
 
 $(SHAREDLIB): $(PROCESSOR) $(COMMONOBJS) GC/square64.o GC/Instruction.o
 	$(CXX) $(CFLAGS) -shared -o $@ $^ $(LDLIBS)
+
+lib: $(LIB)
+
+$(LIB): $(COMMON_ZH)
+	$(AR) -crs $@ $^
 
 $(FHEOFFLINE): $(FHEOBJS) $(SHAREDLIB)
 	$(CXX) $(CFLAGS) -shared -o $@ $^ $(LDLIBS) 
